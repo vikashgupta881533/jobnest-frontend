@@ -1,0 +1,137 @@
+import { Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import HeroSection from "./components/HeroSection";
+import CategorySection from "./components/CategorySection";
+import FeaturedJobs from "./components/FeaturedJobs";
+import TopCompanies from "./components/TopCompanies";
+import WhyChoose from "./components/WhyChoose";
+import Footer from "./components/Footer";
+import Login from "./components/Login";
+import Signup from "./components/Signup";
+import Layout from "./components/Layout";
+
+import "./components/dashboard/dashboard.css";
+import { ThemeProvider } from "./components/dashboard/theme/ThemeContext";
+import ThemeSwitcher from "./components/dashboard/theme/ThemeSwitcher";
+import ProtectedRoute from "./components/dashboard/ProtectedRoute";
+
+// candidate pages
+import CandidateLayout from "./components/dashboard/CandidateLayout";
+import CandidateOverview from "./pages/candidate/CandidateOverview";
+import CandidateApplications from "./pages/candidate/CandidateApplications";
+import CandidateSavedJobs from "./pages/candidate/CandidateSavedJobs";
+import CandidateProfile from "./pages/candidate/CandidateProfile";
+import CandidateResume from "./pages/candidate/CandidateResume";
+import CandidateJobDetails from "./pages/candidate/CandidateJobDetails";
+
+// recruiter pages
+import RecruiterLayout from "./components/dashboard/RecruiterLayout";
+import RecruiterOverview from "./pages/recruiter/RecruiterOverview";
+import RecruiterPostJob from "./pages/recruiter/RecruiterPostJob";
+import RecruiterListings from "./pages/recruiter/RecruiterListings";
+import RecruiterApplicants from "./pages/recruiter/RecruiterApplicants";
+import RecruiterApplicantDetail from "./pages/recruiter/RecruiterApplicantDetail";
+import RecruiterPipeline from "./pages/recruiter/RecruiterPipeline";
+import RecruiterMessages from "./pages/recruiter/RecruiterMessages";
+import RecruiterProfile from "./pages/recruiter/RecruiterProfile";
+
+// admin pages
+import AdminLayout from "./components/dashboard/AdminLayout";
+import AdminOverview from "./pages/admin/AdminOverview";
+import AdminRecruiters from "./pages/admin/AdminRecruiters";
+import AdminJobs from "./pages/admin/AdminJobs";
+import AdminProfile from "./pages/admin/AdminProfile";
+
+
+function DashboardTheme({ children }) {
+  return (
+    <>
+      <ThemeSwitcher />
+      {children}
+    </>
+  );
+}
+
+
+function Home() {
+  return (
+    <>
+      <HeroSection />
+      <CategorySection />
+      <FeaturedJobs />
+      <TopCompanies />
+      <WhyChoose />
+    </>
+  );
+}
+
+function App() {
+  return (
+    <ThemeProvider defaultTheme="brass">
+      <ThemeSwitcher />
+
+      <Routes>
+        <Route element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+        </Route>
+
+        {/* Candidate — nested routes, role-protected */}
+
+        
+        <Route
+          path="CandidateDashboard/*"
+          element={
+            <ProtectedRoute allowedRoles={["candidate"]}>
+              <CandidateLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<CandidateOverview />} />
+          <Route path="applications" element={<CandidateApplications />} />
+          <Route path="saved" element={<CandidateSavedJobs />} />
+          <Route path="profile" element={<CandidateProfile />} />
+          <Route path="resume" element={<CandidateResume />} />
+          <Route path="job/:jobId" element={<CandidateJobDetails />} />
+        </Route>
+
+        {/* Recruiter — nested routes, role-protected */}
+        <Route
+          path="RecruiterDashboard/*"
+          element={
+            <ProtectedRoute allowedRoles={["recruiter"]}>
+              <RecruiterLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<RecruiterOverview />} />
+          <Route path="post-job" element={<RecruiterPostJob />} />
+          <Route path="listings" element={<RecruiterListings />} />
+          <Route path="applicants" element={<RecruiterApplicants />} />
+          <Route path="applicants/:jobId" element={<RecruiterApplicantDetail />} />
+          <Route path="pipeline" element={<RecruiterPipeline />} />
+          <Route path="messages" element={<RecruiterMessages />} />
+          <Route path="profile" element={<RecruiterProfile />} />
+        </Route>
+
+        {/* Admin — nested routes, role-protected */}
+        <Route
+          path="AdminDashboard/*"
+          element={
+            <ProtectedRoute allowedRoles={["admin"]}>
+              <AdminLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<AdminOverview />} />
+          <Route path="recruiters" element={<AdminRecruiters />} />
+          <Route path="jobs" element={<AdminJobs />} />
+          <Route path="profile" element={<AdminProfile />} />
+        </Route>
+      </Routes>
+    </ThemeProvider>
+  );
+}
+
+export default App;
