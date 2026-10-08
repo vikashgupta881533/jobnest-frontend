@@ -13,11 +13,28 @@ export default function Signup() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    if (name === "phone") {
+      // sirf digits allow karo, max 10
+      const digitsOnly = value.replace(/\D/g, "").slice(0, 10);
+      setForm({ ...form, phone: digitsOnly });
+      return;
+    }
+
+    setForm({ ...form, [name]: value });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setError("");
+
+    if (form.phone.length !== 10) {
+      setError("Please enter a valid 10-digit phone number");
+      return;
+    }
+
     setLoading(true);
 
     axios.post("http://localhost:6100/usersign", form)
@@ -28,7 +45,7 @@ export default function Signup() {
       })
       .catch((err) => {
         setLoading(false);
-        setError("Something went wrong, please try again");
+        setError(err.response?.data || "Something went wrong, please try again");
         console.log(err);
       });
   };
@@ -102,7 +119,16 @@ export default function Signup() {
           </div>
           <div className="field">
             <label>Phone number</label>
-            <input name="phone" type="tel" placeholder="+91 98765 43210" value={form.phone} onChange={handleChange} required />
+            <input
+              name="phone"
+              type="tel"
+              inputMode="numeric"
+              maxLength={10}
+              placeholder="98765 43210"
+              value={form.phone}
+              onChange={handleChange}
+              required
+            />
           </div>
           <div className="field">
             <label>Password</label>

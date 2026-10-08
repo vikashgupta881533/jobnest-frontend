@@ -47,17 +47,50 @@ export default function RecruiterApplicantDetail() {
 
       <table>
         <thead>
-          <tr><th>Candidate</th><th>Skills</th><th>Experience</th><th>Status</th><th>Change status</th></tr>
+          <tr><th>Candidate</th><th>Skills</th><th>Experience</th><th>Resume</th><th>Status</th><th>Change status</th></tr>
         </thead>
         <tbody>
           {applicants.length === 0 && (
-            <tr><td colSpan="5">No one has applied to this job yet.</td></tr>
+            <tr><td colSpan="6">No one has applied to this job yet.</td></tr>
           )}
           {applicants.map((a) => (
             <tr key={a._id}>
-              <td className="cell-strong">{a.candidate?.name}</td>
+              <td>
+                <div className="row-flex">
+                  {a.candidate?.profilePhoto ? (
+                    <img
+                      src={`http://localhost:6100${a.candidate.profilePhoto}`}
+                      alt=""
+                      className="mini-avatar"
+                      style={{ objectFit: "cover" }}
+                    />
+                  ) : (
+                    <div className="mini-avatar c1">
+                      {a.candidate?.name ? a.candidate.name[0].toUpperCase() : "?"}
+                    </div>
+                  )}
+                  <div>
+                    <div className="cell-strong">{a.candidate?.name}</div>
+                    <div className="cell-sub">{a.candidate?.email}</div>
+                  </div>
+                </div>
+              </td>
               <td>{a.candidate?.skills || "—"}</td>
               <td>{a.candidate?.experience ? `${a.candidate.experience} yrs` : "—"}</td>
+              <td>
+                {a.candidate?.resume ? (
+                  <a
+                    href={`http://localhost:6100${a.candidate.resume}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="btn-mini"
+                  >
+                    View resume
+                  </a>
+                ) : (
+                  <span className="cell-sub">Not uploaded</span>
+                )}
+              </td>
               <td><Badge type={statusMap[a.status]?.type || "applied"}>{statusMap[a.status]?.text || a.status}</Badge></td>
               <td>
                 <select

@@ -71,10 +71,21 @@ function Home() {
   );
 }
 
-function App() {
+// Har dashboard (Candidate/Recruiter/Admin) ko yahi wrapper deta hai —
+// theme system + theme-switcher button sirf inke andar hi kaam karta hai,
+// public site (Home/Login/Signup) is se bilkul untouched rehti hai.
+function DashboardShell({ children }) {
   return (
     <ThemeProvider defaultTheme="brass">
       <ThemeSwitcher />
+      {children}
+    </ThemeProvider>
+  );
+}
+
+function App() {
+  return (
+    <>
       <ScrollToTop />
 
        <Toaster
@@ -101,13 +112,15 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
 
-        {/* Candidate — nested routes, role-protected */}
+        {/* Candidate — nested routes, role-protected, own theme */}
         <Route
           path="CandidateDashboard/*"
           element={
-            <ProtectedRoute allowedRoles={["candidate"]}>
-              <CandidateLayout />
-            </ProtectedRoute>
+            <DashboardShell>
+              <ProtectedRoute allowedRoles={["candidate"]}>
+                <CandidateLayout />
+              </ProtectedRoute>
+            </DashboardShell>
           }
         >
           <Route index element={<CandidateOverview />} />
@@ -119,13 +132,15 @@ function App() {
           <Route path="job/:jobId" element={<CandidateJobDetails />} />
         </Route>
 
-        {/* Recruiter — nested routes, role-protected */}
+        {/* Recruiter — nested routes, role-protected, own theme */}
         <Route
           path="RecruiterDashboard/*"
           element={
-            <ProtectedRoute allowedRoles={["recruiter"]}>
-              <RecruiterLayout />
-            </ProtectedRoute>
+            <DashboardShell>
+              <ProtectedRoute allowedRoles={["recruiter"]}>
+                <RecruiterLayout />
+              </ProtectedRoute>
+            </DashboardShell>
           }
         >
           <Route index element={<RecruiterOverview />} />
@@ -139,13 +154,15 @@ function App() {
           <Route path="profile" element={<RecruiterProfile />} />
         </Route>
 
-        {/* Admin — nested routes, role-protected */}
+        {/* Admin — nested routes, role-protected, own theme */}
         <Route
           path="AdminDashboard/*"
           element={
-            <ProtectedRoute allowedRoles={["admin"]}>
-              <AdminLayout />
-            </ProtectedRoute>
+            <DashboardShell>
+              <ProtectedRoute allowedRoles={["admin"]}>
+                <AdminLayout />
+              </ProtectedRoute>
+            </DashboardShell>
           }
         >
           <Route index element={<AdminOverview />} />
@@ -154,7 +171,7 @@ function App() {
           <Route path="profile" element={<AdminProfile />} />
         </Route>
       </Routes>
-    </ThemeProvider>
+    </>
   );
 }
 

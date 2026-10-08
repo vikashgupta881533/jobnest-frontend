@@ -40,7 +40,7 @@ export default function CandidateJobs() {
   const handleApply = (jobId) => {
     axios.post("http://localhost:6100/applications", { jobId }, authHeader())
       .then(() => { alert("Applied!"); fetchMyApplications(); })
-      .catch((err) => { alert("Failed to apply, please try again"); console.log(err); });
+      .catch((err) => { alert(err.response?.data || "Failed to apply, please try again"); console.log(err); });
   };
 
   const handleToggleSave = (jobId) => {
