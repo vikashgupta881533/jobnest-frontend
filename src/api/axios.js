@@ -2,7 +2,8 @@ import axios from "axios";
 
 // Ek hi jagah backend ka address likha hai — poore app mein yahi import karo.
 const api = axios.create({
-  baseURL: "http://localhost:6100",
+  baseURL: "https://jobnest-backend-xwuc.onrender.com",
+  //baseURL: "http://localhost:6100",
 });
 
 // Har request ke saath automatically login token bhej dega
