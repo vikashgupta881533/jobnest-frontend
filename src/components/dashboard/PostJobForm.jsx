@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
+import api from "../../api/axios";
 
 export default function PostJobForm({ onPosted }) {
   const [form, setForm] = useState({
@@ -21,8 +22,8 @@ export default function PostJobForm({ onPosted }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    axios
-      .post("http://localhost:6100/jobs", form, {
+    api
+      .post("/jobs", form, {
         headers: { authorization: localStorage.getItem("token") },
       })
       .then(() => {

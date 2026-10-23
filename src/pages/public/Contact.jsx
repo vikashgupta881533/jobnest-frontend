@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "../../components/site.css";
+import api from "../../api/axios";
 
 export default function Contact() {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
@@ -12,7 +13,7 @@ export default function Contact() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
-    axios.post("http://localhost:6100/contact", form)
+    api.post("/contact", form)
       .then(() => {
         setLoading(false);
         setSent(true);

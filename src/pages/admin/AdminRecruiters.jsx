@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Badge from "../../components/dashboard/Badge";
+import api from "../../api/axios";
 
 const authHeader = () => ({ headers: { authorization: localStorage.getItem("token") } });
 
@@ -8,7 +9,7 @@ export default function AdminRecruiters() {
   const [recruiters, setRecruiters] = useState([]);
 
   const fetchRecruiters = () => {
-    axios.get("http://localhost:6100/admin/recruiters", authHeader())
+    api.get("/admin/recruiters", authHeader())
       .then((res) => setRecruiters(res.data))
       .catch((err) => console.log(err));
   };
@@ -18,7 +19,7 @@ export default function AdminRecruiters() {
   }, []);
 
   const handleApprovalChange = (id, isApproved) => {
-    axios.patch(`http://localhost:6100/admin/recruiters/${id}/approve`, { isApproved }, authHeader())
+    api.patch(`/admin/recruiters/${id}/approve`, { isApproved }, authHeader())
       .then(() => fetchRecruiters())
       .catch((err) => console.log(err));
   };

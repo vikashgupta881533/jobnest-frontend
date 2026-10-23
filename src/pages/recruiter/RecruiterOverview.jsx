@@ -3,6 +3,7 @@ import axios from "axios";
 import Hero from "../../components/dashboard/Hero";
 import StatCard from "../../components/dashboard/StatCard";
 import { BriefcaseIcon, UsersIcon, CalendarIcon, ClockIcon } from "../../components/dashboard/icons";
+import api from "../../api/axios";
 
 const authHeader = () => ({ headers: { authorization: localStorage.getItem("token") } });
 
@@ -11,11 +12,11 @@ export default function RecruiterOverview() {
   const [applications, setApplications] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:6100/jobs/my", authHeader())
+    api.get("/jobs/my", authHeader())
       .then((res) => setJobs(res.data))
       .catch((err) => console.log(err));
 
-    axios.get("http://localhost:6100/applications/recruiter", authHeader())
+    api.get("/applications/recruiter", authHeader())
       .then((res) => setApplications(res.data))
       .catch((err) => console.log(err));
   }, []);

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import api from "../../api/axios";
 
 const authHeader = () => ({ headers: { authorization: localStorage.getItem("token") } });
 
@@ -15,7 +16,7 @@ export default function RecruiterPipeline() {
   const [applications, setApplications] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:6100/applications/recruiter", authHeader())
+    api.get("/applications/recruiter", authHeader())
       .then((res) => setApplications(res.data))
       .catch((err) => console.log(err));
   }, []);

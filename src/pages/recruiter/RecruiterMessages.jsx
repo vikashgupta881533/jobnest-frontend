@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import api from "../../api/axios";
 
 const authHeader = () => ({ headers: { authorization: localStorage.getItem("token") } });
 
@@ -10,21 +11,21 @@ export default function RecruiterMessages() {
   const [messageText, setMessageText] = useState("");
 
   useEffect(() => {
-    axios.get("http://localhost:6100/applications/recruiter", authHeader())
+    api.get("/applications/recruiter", authHeader())
       .then((res) => setApplications(res.data))
       .catch((err) => console.log(err));
   }, []);
 
   const openConversation = (applicationId) => {
     setOpenFor(applicationId);
-    axios.get(`http://localhost:6100/messages/${applicationId}`, authHeader())
+    api.get(`/messages/${applicationId}`, authHeader())
       .then((res) => setMessages(res.data))
       .catch((err) => console.log(err));
   };
 
   const handleSend = () => {
     if (!messageText.trim()) return;
-    axios.post("http://localhost:6100/messages", { applicationId: openFor, text: messageText }, authHeader())
+    api.post("/messages", { applicationId: openFor, text: messageText }, authHeader())
       .then(() => {
         setMessageText("");
         openConversation(openFor);

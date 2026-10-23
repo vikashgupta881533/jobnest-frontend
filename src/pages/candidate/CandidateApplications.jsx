@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Badge from "../../components/dashboard/Badge";
+import api from "../../api/axios";
 
 const authHeader = () => ({ headers: { authorization: localStorage.getItem("token") } });
 
@@ -20,7 +21,7 @@ export default function CandidateApplications() {
   const [messageText, setMessageText] = useState("");
 
   const fetchMyApplications = () => {
-    axios.get("http://localhost:6100/applications/my", authHeader())
+    api.get("/applications/my", authHeader())
       .then((res) => setMyApplications(res.data))
       .catch((err) => console.log(err));
   };
@@ -31,14 +32,14 @@ export default function CandidateApplications() {
 
   const openMessages = (applicationId) => {
     setOpenMessagesFor(applicationId);
-    axios.get(`http://localhost:6100/messages/${applicationId}`, authHeader())
+    api.get(`/messages/${applicationId}`, authHeader())
       .then((res) => setMessages(res.data))
       .catch((err) => console.log(err));
   };
 
   const handleSendMessage = () => {
     if (!messageText.trim()) return;
-    axios.post("http://localhost:6100/messages", { applicationId: openMessagesFor, text: messageText }, authHeader())
+    api.post("/messages", { applicationId: openMessagesFor, text: messageText }, authHeader())
       .then(() => {
         setMessageText("");
         openMessages(openMessagesFor);

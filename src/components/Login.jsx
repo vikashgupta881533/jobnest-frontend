@@ -3,6 +3,7 @@ import axios from "axios";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import "./site.css";
 import toast from 'react-hot-toast'
+import api from "../api/axios";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ export default function Login() {
     setError("");
     setLoading(true);
 
-    axios.post("http://localhost:6100/userlogin", form)
+    api.post("/userlogin", form)
       .then((res) => {
         setLoading(false);
 

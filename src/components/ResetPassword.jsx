@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import "./site.css";
+import api from "../api/axios";
 
 export default function ResetPassword() {
   const [searchParams] = useSearchParams();
@@ -27,7 +28,7 @@ export default function ResetPassword() {
     }
 
     setLoading(true);
-    axios.post("http://localhost:6100/reset-password", { token, newPassword: password })
+    api.post("/reset-password", { token, newPassword: password })
       .then(() => {
         alert("Password updated — please log in");
         navigate("/login");

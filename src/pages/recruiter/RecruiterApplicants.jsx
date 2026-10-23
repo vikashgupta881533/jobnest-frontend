@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import api from "../../api/axios";
 
 const authHeader = () => ({ headers: { authorization: localStorage.getItem("token") } });
 
@@ -9,11 +10,11 @@ export default function RecruiterApplicants() {
   const [applications, setApplications] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:6100/jobs/my", authHeader())
+    api.get("/jobs/my", authHeader())
       .then((res) => setJobs(res.data))
       .catch((err) => console.log(err));
 
-    axios.get("http://localhost:6100/applications/recruiter", authHeader())
+    api.get("/applications/recruiter", authHeader())
       .then((res) => setApplications(res.data))
       .catch((err) => console.log(err));
   }, []);

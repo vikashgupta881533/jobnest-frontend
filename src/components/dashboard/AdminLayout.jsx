@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom";
 import axios from "axios";
 import Sidebar from "./Sidebar";
 import Topbar from "./Topbar";
+import api from "../../api/axios";
 
 const navItems = [
   { label: "Overview", to: "/AdminDashboard" },
@@ -15,7 +16,7 @@ export default function AdminLayout() {
   const [profile, setProfile] = useState(null);
 
   useEffect(() => {
-    axios.get("http://localhost:6100/profile", {
+    api.get("/profile", {
       headers: { authorization: localStorage.getItem("token") },
     })
       .then((res) => setProfile(res.data))

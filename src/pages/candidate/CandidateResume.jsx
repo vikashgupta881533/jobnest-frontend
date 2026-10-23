@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import api from "../../api/axios";
 
 export default function CandidateResume() {
   const [profile, setProfile] = useState(null);
   const [resumeFile, setResumeFile] = useState(null);
 
   const fetchProfile = () => {
-    axios.get("http://localhost:6100/profile", {
+    api.get("/profile", {
       headers: { authorization: localStorage.getItem("token") },
     })
       .then((res) => setProfile(res.data))
@@ -25,7 +26,7 @@ export default function CandidateResume() {
     const formData = new FormData();
     formData.append("resume", resumeFile);
 
-    axios.post("http://localhost:6100/profile/resume", formData, {
+    api.post("/profile/resume", formData, {
       headers: {
         authorization: localStorage.getItem("token"),
         "Content-Type": "multipart/form-data",
@@ -49,7 +50,7 @@ export default function CandidateResume() {
       {profile?.resume && (
         <p>
           Current resume:{" "}
-          <a href={`http://localhost:6100${profile.resume}`} target="_blank" rel="noreferrer">
+          <a href={`${api.defaults.baseURL}${profile.resume}`} target="_blank" rel="noreferrer">
             View uploaded resume
           </a>
         </p>

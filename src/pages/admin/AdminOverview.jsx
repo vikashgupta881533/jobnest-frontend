@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Hero from "../../components/dashboard/Hero";
 import StatCard from "../../components/dashboard/StatCard";
 import { UsersIcon, ShieldCheckIcon, BriefcaseIcon, TrendingUpIcon } from "../../components/dashboard/icons";
+import api from "../../api/axios";
 
 const authHeader = () => ({ headers: { authorization: localStorage.getItem("token") } });
 
@@ -11,7 +12,7 @@ export default function AdminOverview() {
   const [stats, setStats] = useState(null);
 
   useEffect(() => {
-    axios.get("http://localhost:6100/admin/stats", authHeader())
+    api.get("/admin/stats", authHeader())
       .then((res) => setStats(res.data))
       .catch((err) => console.log(err));
   }, []);

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
+import api from "../../api/axios";
 
 const authHeader = () => ({ headers: { authorization: localStorage.getItem("token") } });
 
@@ -15,7 +16,7 @@ export default function RecruiterEditJob() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get(`http://localhost:6100/jobs/${jobId}`)
+    api.get(`/jobs/${jobId}`)
       .then((res) => {
         const job = res.data;
         setForm({
@@ -32,7 +33,7 @@ export default function RecruiterEditJob() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.patch(`http://localhost:6100/jobs/${jobId}`, form, authHeader())
+    api.patch(`/jobs/${jobId}`, form, authHeader())
       .then(() => {
         alert("Job updated — it will need admin re-approval before going live again");
         navigate("/RecruiterDashboard/listings");

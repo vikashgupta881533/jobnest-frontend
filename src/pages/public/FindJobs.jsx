@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../../components/site.css";
 import "../../components/FeaturedJobs.css";
+import api from "../../api/axios";
 
 export default function FindJobs() {
   const [jobs, setJobs] = useState([]);
@@ -10,7 +11,7 @@ export default function FindJobs() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get("http://localhost:6100/jobs")
+    api.get("/jobs")
       .then((res) => setJobs(res.data))
       .catch((err) => console.log(err));
   }, []);

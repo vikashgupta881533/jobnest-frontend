@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import api from "../../api/axios";
 
 const authHeader = () => ({ headers: { authorization: localStorage.getItem("token") } });
 
@@ -8,7 +9,7 @@ export default function CandidateSavedJobs() {
   const [savedJobs, setSavedJobs] = useState([]);
 
   const fetchSavedJobs = () => {
-    axios.get("http://localhost:6100/jobs/saved", authHeader())
+    api.get("/jobs/saved", authHeader())
       .then((res) => setSavedJobs(res.data))
       .catch((err) => console.log(err));
   };
@@ -18,7 +19,7 @@ export default function CandidateSavedJobs() {
   }, []);
 
   const handleRemove = (jobId) => {
-    axios.post(`http://localhost:6100/jobs/${jobId}/save`, {}, authHeader())
+    api.post(`/jobs/${jobId}/save`, {}, authHeader())
       .then(() => fetchSavedJobs())
       .catch((err) => console.log(err));
   };

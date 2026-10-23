@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { SearchIcon, BellIcon } from "./icons";
+import api from "../../api/axios";
 
 const authHeader = () => ({ headers: { authorization: localStorage.getItem("token") } });
 
@@ -16,7 +17,7 @@ export default function Topbar({ searchPlaceholder, initials, name, subtitle, ph
   const unreadCount = notifications.filter((n) => !n.read).length;
 
   const fetchNotifications = () => {
-    axios.get("http://localhost:6100/notifications", authHeader())
+    api.get("/notifications", authHeader())
       .then((res) => setNotifications(res.data))
       .catch((err) => console.log(err));
   };
@@ -45,7 +46,7 @@ export default function Topbar({ searchPlaceholder, initials, name, subtitle, ph
   };
 
   const handleNotifClick = (n) => {
-    axios.patch(`http://localhost:6100/notifications/${n._id}/read`, {}, authHeader())
+    api.patch(`/notifications/${n._id}/read`, {}, authHeader())
       .then(() => fetchNotifications())
       .catch((err) => console.log(err));
     setNotifOpen(false);
@@ -53,7 +54,7 @@ export default function Topbar({ searchPlaceholder, initials, name, subtitle, ph
   };
 
   const handleMarkAllRead = () => {
-    axios.patch("http://localhost:6100/notifications/read-all", {}, authHeader())
+    api.patch("/notifications/read-all", {}, authHeader())
       .then(() => fetchNotifications())
       .catch((err) => console.log(err));
   };
@@ -118,7 +119,7 @@ export default function Topbar({ searchPlaceholder, initials, name, subtitle, ph
         <div className="who-wrap" ref={menuRef}>
           <button className="who" onClick={() => setOpen(!open)}>
             {photo ? (
-              <img src={`http://localhost:6100${photo}`} alt="profile" className="avatar-img" />
+              <img src={`${photo}`} alt="profile" className="avatar-img" />
             ) : (
               <div className="avatar">{initials}</div>
             )}

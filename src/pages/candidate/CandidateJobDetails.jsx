@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, Link } from "react-router-dom";
+import api from "../../api/axios";
 
 const authHeader = () => ({ headers: { authorization: localStorage.getItem("token") } });
 
@@ -12,19 +13,19 @@ export default function CandidateJobDetails() {
   const [savedJobs, setSavedJobs] = useState([]);
 
   const fetchJob = () => {
-    axios.get(`http://localhost:6100/jobs/${jobId}`)
+    api.get(`/jobs/${jobId}`)
       .then((res) => setJob(res.data))
       .catch((err) => console.log(err));
   };
 
   const fetchMyApplications = () => {
-    axios.get("http://localhost:6100/applications/my", authHeader())
+    api.get("/applications/my", authHeader())
       .then((res) => setMyApplications(res.data))
       .catch((err) => console.log(err));
   };
 
   const fetchSavedJobs = () => {
-    axios.get("http://localhost:6100/jobs/saved", authHeader())
+    api.get("/jobs/saved", authHeader())
       .then((res) => setSavedJobs(res.data))
       .catch((err) => console.log(err));
   };
@@ -36,13 +37,13 @@ export default function CandidateJobDetails() {
   }, [jobId]);
 
   const handleApply = () => {
-    axios.post("http://localhost:6100/applications", { jobId }, authHeader())
+    api.post("/applications", { jobId }, authHeader())
       .then(() => { alert("Applied!"); fetchMyApplications(); })
       .catch((err) => { alert(err.response?.data || "Failed to apply, please try again"); console.log(err); });
   };
 
   const handleToggleSave = () => {
-    axios.post(`http://localhost:6100/jobs/${jobId}/save`, {}, authHeader())
+    api.post(`/jobs/${jobId}/save`, {}, authHeader())
       .then(() => fetchSavedJobs())
       .catch((err) => console.log(err));
   };

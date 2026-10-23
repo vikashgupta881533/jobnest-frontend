@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import "../../components/site.css";
+import api from "../../api/axios";
 
 export default function Companies() {
   const [companies, setCompanies] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:6100/companies")
+    api.get("/companies")
       .then((res) => setCompanies(res.data))
       .catch((err) => console.log(err));
   }, []);

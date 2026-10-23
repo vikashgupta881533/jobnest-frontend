@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import api from "../../api/axios";
 
 const authHeader = () => ({ headers: { authorization: localStorage.getItem("token") } });
 
@@ -12,7 +13,7 @@ export default function RecruiterProfile() {
   });
 
   const fetchProfile = () => {
-    axios.get("http://localhost:6100/profile", authHeader())
+    api.get("/profile", authHeader())
       .then((res) => {
         setProfile(res.data);
         setForm({
@@ -33,7 +34,7 @@ export default function RecruiterProfile() {
 
   const handleSave = (e) => {
     e.preventDefault();
-    axios.patch("http://localhost:6100/profile", form, authHeader())
+    api.patch("/profile", form, authHeader())
       .then(() => alert("Profile updated!"))
       .catch((err) => { alert("Update failed, please try again"); console.log(err); });
   };
@@ -46,7 +47,7 @@ export default function RecruiterProfile() {
     const formData = new FormData();
     formData.append("photo", photoFile);
 
-    axios.post("http://localhost:6100/profile/photo", formData, {
+    api.post("/profile/photo", formData, {
       headers: {
         authorization: localStorage.getItem("token"),
         "Content-Type": "multipart/form-data",
@@ -60,7 +61,7 @@ export default function RecruiterProfile() {
     <>
       <div className="panel" style={{ marginBottom: 20, display: "flex", alignItems: "center", gap: 20 }}>
         {profile?.profilePhoto ? (
-          <img src={`http://localhost:6100${profile.profilePhoto}`} alt="profile" className="avatar-large" />
+          <img src={`${api.defaults.baseURL}${profile.profilePhoto}`} alt="profile" className="avatar-large" />
         ) : (
           <div className="avatar-large-placeholder">
             {profile?.name ? profile.name[0].toUpperCase() : "R"}

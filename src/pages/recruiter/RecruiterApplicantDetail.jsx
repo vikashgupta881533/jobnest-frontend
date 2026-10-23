@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, Link } from "react-router-dom";
 import Badge from "../../components/dashboard/Badge";
+import api from "../../api/axios";
 
 const authHeader = () => ({ headers: { authorization: localStorage.getItem("token") } });
 
@@ -21,7 +22,7 @@ export default function RecruiterApplicantDetail() {
   const [applicants, setApplicants] = useState([]);
 
   const fetchApplicants = () => {
-    axios.get(`http://localhost:6100/applications/job/${jobId}`, authHeader())
+    api.get(`/applications/job/${jobId}`, authHeader())
       .then((res) => setApplicants(res.data))
       .catch((err) => console.log(err));
   };
@@ -31,7 +32,7 @@ export default function RecruiterApplicantDetail() {
   }, [jobId]);
 
   const handleStatusChange = (applicationId, status) => {
-    axios.patch(`http://localhost:6100/applications/${applicationId}/status`, { status }, authHeader())
+    api.patch(`/applications/${applicationId}/status`, { status }, authHeader())
       .then(() => fetchApplicants())
       .catch((err) => console.log(err));
   };
@@ -59,7 +60,7 @@ export default function RecruiterApplicantDetail() {
                 <div className="row-flex">
                   {a.candidate?.profilePhoto ? (
                     <img
-                      src={`http://localhost:6100${a.candidate.profilePhoto}`}
+                      src={`${api.defaults.baseURL}${a.candidate.profilePhoto}`}
                       alt=""
                       className="mini-avatar"
                       style={{ objectFit: "cover" }}
@@ -80,7 +81,7 @@ export default function RecruiterApplicantDetail() {
               <td>
                 {a.candidate?.resume ? (
                   <a
-                    href={`http://localhost:6100${a.candidate.resume}`}
+                    href={`${api.defaults.baseURL}${a.candidate.resume}`}
                     target="_blank"
                     rel="noreferrer"
                     className="btn-mini"

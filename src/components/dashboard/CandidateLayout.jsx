@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom";
 import axios from "axios";
 import Sidebar from "./Sidebar";
 import Topbar from "./Topbar";
+import api from "../../api/axios";
 
 const navItems = [
   { label: "Dashboard", to: "/CandidateDashboard" },
@@ -20,7 +21,7 @@ export default function CandidateLayout() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
-    axios.get("http://localhost:6100/profile", {
+    api.get("/profile", {
       headers: { authorization: localStorage.getItem("token") },
     })
       .then((res) => setProfile(res.data))

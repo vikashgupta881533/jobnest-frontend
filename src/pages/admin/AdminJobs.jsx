@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Badge from "../../components/dashboard/Badge";
+import api from "../../api/axios";
 
 const authHeader = () => ({ headers: { authorization: localStorage.getItem("token") } });
 
@@ -14,7 +15,7 @@ export default function AdminJobs() {
   const [jobs, setJobs] = useState([]);
 
   const fetchJobs = () => {
-    axios.get("http://localhost:6100/admin/jobs", authHeader())
+    api.get("/admin/jobs", authHeader())
       .then((res) => setJobs(res.data))
       .catch((err) => console.log(err));
   };
@@ -24,7 +25,7 @@ export default function AdminJobs() {
   }, []);
 
   const handleStatusChange = (id, status) => {
-    axios.patch(`http://localhost:6100/admin/jobs/${id}/status`, { status }, authHeader())
+    api.patch(`/admin/jobs/${id}/status`, { status }, authHeader())
       .then(() => fetchJobs())
       .catch((err) => console.log(err));
   };

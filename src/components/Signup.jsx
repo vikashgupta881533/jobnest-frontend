@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import "./site.css";
+import api from "../api/axios";
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -37,7 +38,7 @@ export default function Signup() {
 
     setLoading(true);
 
-    axios.post("http://localhost:6100/usersign", form)
+    api.post("/usersign", form)
       .then(() => {
         setLoading(false);
         // account created — send them to login with a small success hint

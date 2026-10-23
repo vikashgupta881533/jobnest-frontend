@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import Badge from "../../components/dashboard/Badge";
+import api from "../../api/axios";
 
 const statusMap = {
   live: { type: "approved", text: "Live" },
@@ -20,7 +21,7 @@ export default function RecruiterListings() {
   const [listings, setListings] = useState([]);
 
   const fetchMyJobs = () => {
-    axios.get("http://localhost:6100/jobs/my", {
+    api.get("/jobs/my", {
       headers: { authorization: localStorage.getItem("token") },
     })
       .then((res) => setListings(res.data))
@@ -34,7 +35,7 @@ export default function RecruiterListings() {
   const handleDelete = (jobId, title) => {
     if (!window.confirm(`Delete "${title}"? This can't be undone.`)) return;
 
-    axios.delete(`http://localhost:6100/jobs/${jobId}`, {
+    api.delete(`/jobs/${jobId}`, {
       headers: { authorization: localStorage.getItem("token") },
     })
       .then(() => fetchMyJobs())
