@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import useTableLabels from "./useTableLabels";
 import { Outlet } from "react-router-dom";
 import axios from "axios";
 import Sidebar from "./Sidebar";
@@ -14,6 +15,9 @@ const navItems = [
 
 export default function AdminLayout() {
   const [profile, setProfile] = useState(null);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const mainRef = useRef(null);
+  useTableLabels(mainRef);
 
   useEffect(() => {
     api.get("/profile", {
@@ -30,8 +34,10 @@ export default function AdminLayout() {
         navItems={navItems}
         footerTitle="Logged in as"
         footerSub={profile?.name || "Admin"}
+        mobileOpen={mobileOpen}
+        onClose={() => setMobileOpen(false)}
       />
-      <main className="main">
+      <main className="main" ref={mainRef}>
         <Topbar
           searchPlaceholder="Search users, companies, job listings"
           initials={profile?.name ? profile.name[0].toUpperCase() : "A"}
@@ -39,6 +45,7 @@ export default function AdminLayout() {
           subtitle="Platform admin"
           photo={profile?.profilePhoto}
           profilePath="/AdminDashboard/profile"
+          onMenuClick={() => setMobileOpen(true)}
         />
         <Outlet />
       </main>

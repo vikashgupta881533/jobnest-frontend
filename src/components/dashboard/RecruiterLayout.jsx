@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import useTableLabels from "./useTableLabels";
 import { Outlet } from "react-router-dom";
 import axios from "axios";
 import Sidebar from "./Sidebar";
@@ -17,6 +18,9 @@ const navItems = [
 
 export default function RecruiterLayout() {
   const [profile, setProfile] = useState(null);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const mainRef = useRef(null);
+  useTableLabels(mainRef);
 
   useEffect(() => {
     api.get("/profile", {
@@ -33,8 +37,10 @@ export default function RecruiterLayout() {
         navItems={navItems}
         footerTitle="Logged in as"
         footerSub={profile?.companyName || profile?.name || "Recruiter"}
+        mobileOpen={mobileOpen}
+        onClose={() => setMobileOpen(false)}
       />
-      <main className="main">
+      <main className="main" ref={mainRef}>
         <Topbar
           searchPlaceholder="Search candidates by skill, role, location"
           initials={profile?.name ? profile.name[0].toUpperCase() : "R"}
@@ -42,6 +48,7 @@ export default function RecruiterLayout() {
           subtitle={profile?.companyName || "Recruiter"}
           photo={profile?.profilePhoto}
           profilePath="/RecruiterDashboard/profile"
+          onMenuClick={() => setMobileOpen(true)}
         />
 
         {profile && !profile.isApproved && (

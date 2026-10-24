@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import useTableLabels from "./useTableLabels";
 import { Outlet } from "react-router-dom";
 import axios from "axios";
 import Sidebar from "./Sidebar";
@@ -19,6 +20,8 @@ const navItems = [
 export default function CandidateLayout() {
   const [profile, setProfile] = useState(null);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const mainRef = useRef(null);
+  useTableLabels(mainRef);
 
   useEffect(() => {
     api.get("/profile", {
@@ -38,7 +41,7 @@ export default function CandidateLayout() {
         mobileOpen={mobileOpen}
         onClose={() => setMobileOpen(false)}
       />
-      <main className="main">
+      <main className="main" ref={mainRef}>
         <Topbar
           searchPlaceholder="Search jobs, companies, skills"
           initials={profile?.name ? profile.name[0].toUpperCase() : "C"}

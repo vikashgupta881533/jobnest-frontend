@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
 /**
@@ -6,9 +6,20 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
  *   - "to" diya ho toh real page-navigation (React Router Link)
  *   - "to" na ho toh normal <a> (Admin/Recruiter abhi single-page hain, unke liye "href" use hota hai)
  */
-export default function Sidebar({ roleLabel, navItems, footerTitle, footerSub }) {
+export default function Sidebar({ roleLabel, navItems, footerTitle, footerSub, mobileOpen = false, onClose = () => {} }) {
   const navigate = useNavigate();
   const location = useLocation();
+
+  // page badalte hi mobile drawer band ho jaye
+  useEffect(() => {
+    onClose();
+  }, [location.pathname]);
+
+  // drawer khula ho to peeche ka page scroll na ho
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [mobileOpen]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -18,7 +29,9 @@ export default function Sidebar({ roleLabel, navItems, footerTitle, footerSub })
   };
 
   return (
-    <aside className="sidebar">
+    <>
+    <div className={`sidebar-backdrop ${mobileOpen ? "show" : ""}`} onClick={onClose}></div>
+    <aside className={`sidebar ${mobileOpen ? "mobile-open" : ""}`}>
       <div className="brand">Meridian</div>
       <div className="brand-role">{roleLabel}</div>
       <ul className="nav">
@@ -45,5 +58,6 @@ export default function Sidebar({ roleLabel, navItems, footerTitle, footerSub })
         <button className="logout-btn" onClick={handleLogout}>Logout</button>
       </div>
     </aside>
+    </>
   );
 }

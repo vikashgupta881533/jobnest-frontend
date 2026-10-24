@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useTheme, THEMES } from "./ThemeContext";
 
 /**
@@ -15,9 +15,13 @@ import { useTheme, THEMES } from "./ThemeContext";
  */
 export default function ThemeSwitcher() {
   const { theme, setTheme } = useTheme();
+  const [open, setOpen] = useState(false); // mobile pe chhota button, tap karke khulta hai
 
   return (
-    <div className="control-dock">
+    <div className={`control-dock ${open ? "open" : ""}`}>
+      <button className="dock-toggle" onClick={() => setOpen(!open)} aria-label="Change theme">
+        {open ? "✕" : "🎨"}
+      </button>
       <div className="control-row">
         <div className="control-label">Theme</div>
         <div className="pills">

@@ -66,7 +66,7 @@ export default function CandidateJobDetails() {
         {job.company} · {job.location || "Location N/A"}
       </p>
 
-      <div className="meta" style={{ marginBottom: 20 }}>
+      <div className="job-meta" style={{ marginBottom: 20 }}>
         <span>{job.type}</span>
         {job.salaryMin && job.salaryMax && <span>₹{job.salaryMin}–{job.salaryMax}</span>}
         {job.postedBy?.name && <span>Posted by {job.postedBy.name}</span>}

@@ -332,3 +332,50 @@ tr:last-child td { border-bottom: none; }
   .control-dock { right: 12px; bottom: 12px; padding: 10px 12px; min-width: 0; }
   .control-row .pills button { padding: 6px 8px; font-size: 11.5px; }
 }
+
+/* ---------- job details meta (type · salary · posted by) ---------- */
+.job-meta { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 13px; color: var(--muted-2); }
+
+/* ---------- theme dock: mobile pe chhota button ---------- */
+.dock-toggle { display: none; }
+@media (max-width: 650px) {
+  .control-dock { padding: 8px; gap: 8px; }
+  .dock-toggle {
+    display: flex; align-items: center; justify-content: center; align-self: flex-end;
+    width: 36px; height: 36px; border: none; border-radius: 50%;
+    background: rgba(255,255,255,0.08); color: var(--sidebar-text); font-size: 16px;
+  }
+  .control-dock:not(.open) .control-row { display: none; }
+  .control-dock:not(.open) { border-radius: 50%; }
+}
+
+/* ---------- mobile: tables ko cards mein badlo ---------- */
+@media (max-width: 650px) {
+  .main table, .main thead, .main tbody, .main tr, .main td { display: block; width: 100%; }
+  .main thead { display: none; }
+  .main tr {
+    border: 1px solid var(--line); border-radius: var(--radius-m);
+    padding: 10px 14px; margin-bottom: 12px; background: var(--panel);
+  }
+  .main tr:last-child td, .main td { border-bottom: 1px dashed var(--line); }
+  .main tr td:last-child { border-bottom: none; }
+  .main td {
+    display: flex; justify-content: space-between; align-items: center; gap: 12px;
+    padding: 9px 0; text-align: right; overflow-wrap: anywhere;
+  }
+  .main td::before {
+    content: attr(data-label); flex-shrink: 0; max-width: 45%;
+    font-size: 11.5px; font-weight: 600; color: var(--muted); text-align: left;
+  }
+  .main td[data-label=""]::before { display: none; }
+  .main td[data-label=""] { justify-content: flex-start; flex-wrap: wrap; }
+  .main td select { max-width: 60%; }
+}
+
+/* ---------- mobile: notification dropdown screen ke andar rahe ---------- */
+@media (max-width: 650px) {
+  .notif-dropdown {
+    position: fixed; top: 70px; left: 12px; right: 12px;
+    width: auto; max-height: 70vh;
+  }
+}
