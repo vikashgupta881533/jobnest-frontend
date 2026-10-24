@@ -317,3 +317,18 @@ tr:last-child td { border-bottom: none; }
     display: block; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 55;
   }
 }
+
+/* ---------- small phones ---------- */
+@media (max-width: 650px) {
+  .main { padding: 18px 16px 120px; }
+  .topbar { gap: 10px; margin-bottom: 20px; }
+  .topbar .search { min-width: 0; padding: 10px 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .topbar-right { gap: 8px; }
+  .mobile-menu-btn { margin-right: 0; }
+  .who .meta { display: none; }        /* sirf avatar dikhao */
+  .hero { padding: 26px 22px; }
+  .stats { grid-template-columns: 1fr 1fr; gap: 12px; }
+  /* theme dock chhota karo taaki content na dhake */
+  .control-dock { right: 12px; bottom: 12px; padding: 10px 12px; min-width: 0; }
+  .control-row .pills button { padding: 6px 8px; font-size: 11.5px; }
+}

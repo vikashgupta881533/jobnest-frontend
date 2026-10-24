@@ -26,7 +26,7 @@ export default function Pricing() {
         <p>No hidden fees. Cancel anytime.</p>
       </div>
 
-      <div className="cat-grid" style={{ gridTemplateColumns: "repeat(3, 1fr)" }}>
+      <div className="cat-grid cat-grid-3">
         {plans.map((p) => (
           <div
             className="cat-card"

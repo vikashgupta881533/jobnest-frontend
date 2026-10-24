@@ -60,7 +60,7 @@ export default function CandidateResume() {
         type="file"
         accept=".pdf,.doc,.docx"
         onChange={(e) => setResumeFile(e.target.files[0])}
-        style={{ marginBottom: 12 }}
+        style={{ marginBottom: 12, maxWidth: "100%" }}
       />
       <br />
       <button className="btn-mini" onClick={handleUpload}>Upload resume</button>

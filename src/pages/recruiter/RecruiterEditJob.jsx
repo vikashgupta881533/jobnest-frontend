@@ -65,9 +65,9 @@ export default function RecruiterEditJob() {
         <option>Remote</option>
       </select>
 
-      <div style={{ display: "flex", gap: 10, marginBottom: 10 }}>
-        <input name="salaryMin" type="number" placeholder="Min salary" value={form.salaryMin} onChange={handleChange} style={{ flex: 1, padding: 10 }} />
-        <input name="salaryMax" type="number" placeholder="Max salary" value={form.salaryMax} onChange={handleChange} style={{ flex: 1, padding: 10 }} />
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginBottom: 10 }}>
+        <input name="salaryMin" type="number" placeholder="Min salary" value={form.salaryMin} onChange={handleChange} style={{ flex: "1 1 140px", minWidth: 0, padding: 10 }} />
+        <input name="salaryMax" type="number" placeholder="Max salary" value={form.salaryMax} onChange={handleChange} style={{ flex: "1 1 140px", minWidth: 0, padding: 10 }} />
       </div>
 
       <input name="skillsRequired" placeholder="Skills required" value={form.skillsRequired} onChange={handleChange}

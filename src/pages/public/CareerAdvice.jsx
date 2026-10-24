@@ -20,7 +20,7 @@ export default function CareerAdvice() {
         <p>Short reads from people who've actually hired and been hired.</p>
       </div>
 
-      <div className="cat-grid" style={{ gridTemplateColumns: "repeat(3, 1fr)" }}>
+      <div className="cat-grid cat-grid-3">
         {articles.map((a) => (
           <div className="cat-card" key={a.title}>
             <span className="fj-tag" style={{ marginBottom: 14, display: "inline-block" }}>{a.tag}</span>

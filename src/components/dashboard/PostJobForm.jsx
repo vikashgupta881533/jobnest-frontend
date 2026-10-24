@@ -78,14 +78,14 @@ export default function PostJobForm({ onPosted }) {
         <option>Remote</option>
       </select>
 
-      <div style={{ display: "flex", gap: 10, marginBottom: 10 }}>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginBottom: 10 }}>
         <input
           name="salaryMin"
           type="number"
           placeholder="Min salary (₹ LPA)"
           value={form.salaryMin}
           onChange={handleChange}
-          style={{ flex: 1, padding: 10 }}
+          style={{ flex: "1 1 140px", minWidth: 0, padding: 10 }}
         />
         <input
           name="salaryMax"
@@ -93,7 +93,7 @@ export default function PostJobForm({ onPosted }) {
           placeholder="Max salary (₹ LPA)"
           value={form.salaryMax}
           onChange={handleChange}
-          style={{ flex: 1, padding: 10 }}
+          style={{ flex: "1 1 140px", minWidth: 0, padding: 10 }}
         />
       </div>
 

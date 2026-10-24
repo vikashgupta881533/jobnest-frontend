@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./site.css";
 
 export default function Navbar() {
   const navigate = useNavigate();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const closeMenu = () => setMenuOpen(false);
   const token = localStorage.getItem("token");
   const role = localStorage.getItem("role");
 
@@ -16,20 +18,32 @@ export default function Navbar() {
     localStorage.removeItem("token");
     localStorage.removeItem("role");
     localStorage.removeItem("name");
+    closeMenu();
     navigate("/");
   };
 
   return (
     <>
-      <nav className="mnavbar">
-        <Link to="/" className="brand">Meridian<span>.</span></Link>
-        <div className="nav-links">
+      <nav className={`mnavbar ${menuOpen ? "menu-open" : ""}`}>
+        <Link to="/" className="brand" onClick={closeMenu}>Meridian<span>.</span></Link>
+
+        {/* mobile pe hamburger — desktop pe CSS se hidden */}
+        <button
+          className="nav-toggle"
+          aria-label={menuOpen ? "Close menu" : "Open menu"}
+          aria-expanded={menuOpen}
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
+          <span></span><span></span><span></span>
+        </button>
+
+        <div className="nav-links" onClick={closeMenu}>
           <Link to="/jobs">Find Jobs</Link>
           <Link to="/for-employers">For Employers</Link>
           <Link to="/companies">Companies</Link>
           <Link to="/about">About</Link>
         </div>
-        <div className="nav-actions">
+        <div className="nav-actions" onClick={closeMenu}>
           {token ? (
             <>
               <Link to={dashboardPath} className="mbtn">Dashboard</Link>

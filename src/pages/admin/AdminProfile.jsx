@@ -46,7 +46,7 @@ export default function AdminProfile() {
         </div>
       )}
 
-      <div style={{ flex: 1 }}>
+      <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ fontFamily: "var(--serif)", fontSize: 20, marginBottom: 4 }}>
           {profile?.name || "Loading..."}
         </div>
@@ -54,7 +54,7 @@ export default function AdminProfile() {
           {profile?.email} · Platform admin
         </div>
 
-        <input type="file" accept=".jpg,.jpeg,.png" onChange={(e) => setPhotoFile(e.target.files[0])} style={{ marginBottom: 8 }} />
+        <input type="file" accept=".jpg,.jpeg,.png" onChange={(e) => setPhotoFile(e.target.files[0])} style={{ marginBottom: 8, maxWidth: "100%" }} />
         <br />
         <button className="btn-mini" onClick={handlePhotoUpload}>Update photo</button>
       </div>
